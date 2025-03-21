@@ -1,11 +1,90 @@
+---
+import SEO from '../components/SEO.astro';
+import CommandPalette from '../components/CommandPalette.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import FontSettings from '../components/FontSettings.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	canonicalURL?: URL | string;
+	type?: 'website' | 'article';
+	publishDate?: Date | string;
+	author?: string;
+}
+
+const { 
+	title = "MarkReader", 
+	description = "Un lector minimalista de documentos Markdown con soporte para temas claro y oscuro",
+	image,
+	canonicalURL,
+	type = 'website',
+	publishDate,
+	author
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="en" data-font="serif">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>MarkReader</title>
+		
+		<script>
+			// Apply theme immediately to prevent flash
+			const savedTheme = localStorage.getItem('theme');
+			document.documentElement.classList.add('no-transition'); // Prevent transitions during initial load
+			if (savedTheme === 'dark') {
+				document.documentElement.classList.add('dark-theme');
+				document.documentElement.classList.remove('light-theme');
+				document.body.classList.add('dark-theme');
+				document.body.classList.remove('light-theme');
+			} else if (savedTheme === 'light') {
+				document.documentElement.classList.add('light-theme');
+				document.documentElement.classList.remove('dark-theme');
+				document.body.classList.add('light-theme');
+				document.body.classList.remove('dark-theme');
+			} else {
+				// If no saved preference, check system preference
+				if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					document.documentElement.classList.add('dark-theme');
+					document.body.classList.add('dark-theme');
+				} else {
+					document.documentElement.classList.add('light-theme');
+					document.body.classList.add('light-theme');
+				}
+			}
+			// Remove the no-transition class after initial load
+			window.addEventListener('load', () => {
+				setTimeout(() => {
+					document.documentElement.classList.remove('no-transition');
+				}, 50);
+			});
+		</script>
+		
+		<script>
+			// Establece la fuente preferida al cargar la página
+			document.addEventListener('DOMContentLoaded', () => {
+				const savedFont = localStorage.getItem('font-preference');
+				if (savedFont) {
+					document.documentElement.setAttribute('data-font', savedFont);
+					console.log('Fuente cargada desde localStorage:', savedFont);
+				}
+			});
+		</script>
+
+		<SEO 
+			title={title}
+			description={description}
+			image={image}
+			canonicalURL={canonicalURL}
+			type={type}
+			publishDate={publishDate}
+			author={author}
+		/>
 		
 		<!-- Google Fonts - Source Serif 4 (Variable Font) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +93,7 @@
 	</head>
 	<body>
 		<slot />
+		<CommandPalette />
 	</body>
 </html>
 

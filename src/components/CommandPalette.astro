@@ -1,0 +1,296 @@
+---
+---
+
+<div id="command-palette" class="command-palette">
+  <div class="command-palette-overlay"></div>
+  <div class="command-palette-container">
+    <div class="command-palette-header">
+      <h2 class="command-palette-title">Opciones</h2>
+      <button id="command-palette-close" aria-label="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="command-palette-content">
+      <div class="command-section" id="font-selector-section">
+        <h3>Seleccionar fuente</h3>
+        <div class="command-options">
+          <button class="command-option" data-font="serif">
+            <span class="option-icon serif-sample">Aa</span>
+            <span class="option-label">Source Serif (Serif)</span>
+          </button>
+          <button class="command-option" data-font="sans">
+            <span class="option-icon sans-sample">Aa</span>
+            <span class="option-label">Sistema (Sans-serif)</span>
+          </button>
+          <button class="command-option" data-font="mono">
+            <span class="option-icon mono-sample">Aa</span>
+            <span class="option-label">Monoespaciada</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const commandPalette = document.getElementById('command-palette');
+    const overlay = document.querySelector('.command-palette-overlay');
+    const closeButton = document.getElementById('command-palette-close');
+    const fontOptions = document.querySelectorAll('.command-option[data-font]');
+    
+    // Verificar que los elementos existan
+    if (!commandPalette || !overlay || !closeButton) {
+      console.error('Elementos del command palette no encontrados');
+      return;
+    }
+    
+    // Función para abrir el command palette
+    function openCommandPalette() {
+      if (commandPalette) {
+        commandPalette.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll
+      }
+    }
+    
+    // Función para cerrar el command palette
+    function closeCommandPalette() {
+      if (commandPalette) {
+        commandPalette.classList.remove('active');
+        document.body.style.overflow = ''; // Restaurar scroll
+      }
+    }
+    
+    // Detectar Cmd+K o Ctrl+K
+    document.addEventListener('keydown', (e) => {
+      // Cmd+K en Mac o Ctrl+K en Windows/Linux
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCommandPalette();
+      }
+      
+      // Cerrar con Escape
+      if (e.key === 'Escape' && commandPalette && commandPalette.classList.contains('active')) {
+        closeCommandPalette();
+      }
+    });
+    
+    // Cerrar al hacer clic en el overlay o en el botón de cerrar
+    overlay.addEventListener('click', closeCommandPalette);
+    closeButton.addEventListener('click', closeCommandPalette);
+    
+    // Manejar la selección de fuentes
+    fontOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const fontType = option.getAttribute('data-font');
+        if (fontType) {
+          // Aplicar el atributo data-font a html
+          document.documentElement.setAttribute('data-font', fontType);
+          
+          // Log de depuración para verificar cambios
+          console.log(`Cambiando fuente a: ${fontType}`);
+          console.log(`Atributo data-font actual: ${document.documentElement.getAttribute('data-font')}`);
+          
+          // Guardar la preferencia en localStorage
+          localStorage.setItem('font-preference', fontType);
+          
+          // Forzar reflow para aplicar cambios
+          document.body.style.display = 'none';
+          document.body.offsetHeight; // Forzar reflow
+          document.body.style.display = '';
+        }
+        
+        // Cerrar el command palette después de seleccionar
+        closeCommandPalette();
+      });
+    });
+    
+    // Cargar la preferencia de fuente guardada
+    const savedFont = localStorage.getItem('font-preference');
+    if (savedFont) {
+      document.documentElement.setAttribute('data-font', savedFont);
+      console.log(`Cargando fuente guardada: ${savedFont}`);
+    }
+  });
+</script>
+
+<style>
+  .command-palette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  
+  .command-palette.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .command-palette-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  .command-palette-container {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    margin-top: 10vh;
+    background-color: var(--color-background);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+  }
+  
+  .command-palette.active .command-palette-container {
+    transform: translateY(0);
+  }
+  
+  .command-palette-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .command-palette-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  #command-palette-close {
+    background: none;
+    border: none;
+    color: var(--color-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #command-palette-close:hover {
+    background-color: var(--color-background-alt);
+  }
+  
+  .command-palette-content {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  
+  .command-section {
+    padding: 12px 16px;
+  }
+  
+  .command-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: var(--color-secondary);
+    font-weight: normal;
+  }
+  
+  .command-options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .command-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--color-text);
+  }
+  
+  .command-option:hover {
+    background-color: var(--color-background-alt);
+  }
+  
+  .option-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    background-color: var(--color-background-alt);
+  }
+  
+  .serif-sample {
+    font-family: var(--font-family-serif);
+  }
+  
+  .sans-sample {
+    font-family: var(--font-family-sans);
+  }
+  
+  .mono-sample {
+    font-family: var(--font-family-mono);
+  }
+  
+  .option-label {
+    flex: 1;
+  }
+  
+  /* Dark mode styles */
+  .dark-theme .command-palette-container {
+    background-color: var(--dark-color-background);
+  }
+  
+  .dark-theme .command-palette-header {
+    border-color: var(--dark-color-border);
+  }
+  
+  .dark-theme #command-palette-close {
+    color: var(--dark-color-secondary);
+  }
+  
+  .dark-theme #command-palette-close:hover {
+    background-color: var(--dark-color-background-alt);
+  }
+  
+  .dark-theme .command-section h3 {
+    color: var(--dark-color-secondary);
+  }
+  
+  .dark-theme .command-option {
+    color: var(--dark-color-text);
+  }
+  
+  .dark-theme .command-option:hover {
+    background-color: var(--dark-color-background-alt);
+  }
+  
+  .dark-theme .option-icon {
+    background-color: var(--dark-color-background-alt);
+  }
+</style>

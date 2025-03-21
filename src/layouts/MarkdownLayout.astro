@@ -1,5 +1,9 @@
 ---
 import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import CommandPalette from '../components/CommandPalette.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import FontSettings from '../components/FontSettings.astro';
 
 interface Props {
   title: string;
@@ -8,23 +12,76 @@ interface Props {
     description?: string;
     date?: string;
     author?: string;
+    image?: string;
     [key: string]: any;
   };
 }
 
-const { title, frontmatter } = Astro.props;
+const { 
+  title = "MarkReader",
+  frontmatter 
+} = Astro.props;
+
 const pageTitle = frontmatter?.title || title;
+const pageDescription = frontmatter?.description || `${pageTitle} - Un documento en la colección MarkReader`;
+const pageAuthor = frontmatter?.author;
+const pageDate = frontmatter?.date;
+const pageImage = frontmatter?.image;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-font="serif">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      // Apply theme immediately to prevent flash
+      const savedTheme = localStorage.getItem('theme');
+      document.documentElement.classList.add('no-transition'); // Prevent transitions during initial load
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+        document.documentElement.classList.remove('light-theme');
+        document.body.classList.add('dark-theme');
+        document.body.classList.remove('light-theme');
+      } else if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+        document.documentElement.classList.remove('dark-theme');
+        document.body.classList.add('light-theme');
+        document.body.classList.remove('dark-theme');
+      } else {
+        // If no saved preference, check system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark-theme');
+          document.body.classList.add('dark-theme');
+        } else {
+          document.documentElement.classList.add('light-theme');
+          document.body.classList.add('light-theme');
+        }
+      }
+      // Remove the no-transition class after initial load
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.documentElement.classList.remove('no-transition');
+        }, 50);
+      });
+      
+      // Set preferred font from localStorage (if available)
+      const preferredFont = localStorage.getItem('font-preference');
+      if (preferredFont) {
+        document.documentElement.setAttribute('data-font', preferredFont);
+      }
+    </script>
     <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle} | MarkReader</title>
-    <meta name="description" content={frontmatter?.description || "A document in the MarkReader collection"} />
+    <SEO 
+      title={`${pageTitle} | MarkReader`}
+      description={pageDescription}
+      image={pageImage}
+      canonicalURL={Astro.url}
+      type="article"
+      publishDate={pageDate}
+      author={pageAuthor}
+    />
     
     <!-- Google Fonts - Source Serif 4 (Variable Font) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,22 +93,10 @@ const pageTitle = frontmatter?.title || title;
       <header>
         <div class="header-content">
           <h1><a href="/">MarkReader</a></h1>
-          <button id="theme-toggle" aria-label="Toggle dark mode">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </button>
+          <div class="header-buttons">
+            <FontSettings />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
       <main>
@@ -64,97 +109,17 @@ const pageTitle = frontmatter?.title || title;
       </footer>
     </div>
 
+    <CommandPalette />
+
     <script>
       // Theme toggle functionality
       document.addEventListener('DOMContentLoaded', () => {
-        const themeToggle = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
-        const bodyElement = document.body;
-        
-        // Check for saved theme preference or use the system preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-          htmlElement.classList.add('dark-theme');
-          htmlElement.classList.remove('light-theme');
-          bodyElement.classList.add('dark-theme');
-          bodyElement.classList.remove('light-theme');
-        } else if (savedTheme === 'light') {
-          htmlElement.classList.add('light-theme');
-          htmlElement.classList.remove('dark-theme');
-          bodyElement.classList.add('light-theme');
-          bodyElement.classList.remove('dark-theme');
-        } else {
-          // If no saved preference, check system preference
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            htmlElement.classList.add('dark-theme');
-            bodyElement.classList.add('dark-theme');
-          } else {
-            htmlElement.classList.add('light-theme');
-            bodyElement.classList.add('light-theme');
-          }
-        }
-        
-        // Update button appearance based on current theme
-        updateToggleButton();
-        
-        // Toggle theme when button is clicked
-        if (themeToggle) {
-          themeToggle.addEventListener('click', () => {
-            if (htmlElement.classList.contains('dark-theme')) {
-              // Switch to light theme
-              htmlElement.classList.remove('dark-theme');
-              htmlElement.classList.add('light-theme');
-              bodyElement.classList.remove('dark-theme');
-              bodyElement.classList.add('light-theme');
-              localStorage.setItem('theme', 'light');
-              console.log('Switched to light theme');
-            } else {
-              // Switch to dark theme
-              htmlElement.classList.remove('light-theme');
-              htmlElement.classList.add('dark-theme');
-              bodyElement.classList.remove('light-theme');
-              bodyElement.classList.add('dark-theme');
-              localStorage.setItem('theme', 'dark');
-              console.log('Switched to dark theme');
-            }
-            updateToggleButton();
-          });
-        }
-        
-        function updateToggleButton() {
-          const isDarkTheme = htmlElement.classList.contains('dark-theme');
-          
-          const sunIcon = document.querySelector('.sun-icon') as HTMLElement;
-          const moonIcon = document.querySelector('.moon-icon') as HTMLElement;
-          
-          if (isDarkTheme) {
-            if (sunIcon) sunIcon.style.display = 'block';
-            if (moonIcon) moonIcon.style.display = 'none';
-          } else {
-            if (sunIcon) sunIcon.style.display = 'none';
-            if (moonIcon) moonIcon.style.display = 'block';
-          }
-        }
-        
-        // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-          if (!localStorage.getItem('theme')) {
-            // Only apply system preference if user hasn't set a preference
-            if (e.matches) {
-              htmlElement.classList.add('dark-theme');
-              htmlElement.classList.remove('light-theme');
-              bodyElement.classList.add('dark-theme');
-              bodyElement.classList.remove('light-theme');
-            } else {
-              htmlElement.classList.add('light-theme');
-              htmlElement.classList.remove('dark-theme');
-              bodyElement.classList.add('light-theme');
-              bodyElement.classList.remove('dark-theme');
-            }
-            updateToggleButton();
-          }
-        });
+        // Ahora la funcionalidad de toggle está en el componente ThemeToggle.astro
       });
+    </script>
+
+    <script>
+      // La funcionalidad para el botón de configuración de fuente ahora está en FontSettings.astro
     </script>
   </body>
 </html>
@@ -166,25 +131,9 @@ const pageTitle = frontmatter?.title || title;
     align-items: center;
   }
   
-  #theme-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    color: var(--color-text);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+  .header-buttons {
     display: flex;
     align-items: center;
-    justify-content: center;
-  }
-  
-  #theme-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  .dark-theme #theme-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    gap: 4px;
   }
 </style>

@@ -1,0 +1,79 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: URL | string;
+  type?: 'website' | 'article';
+  publishDate?: Date | string;
+  author?: string;
+}
+
+const {
+  title = "MarkReader",
+  description = "Un lector de Markdown simple",
+  image = "/opengraph/og-markreader.png",
+  canonicalURL = Astro.url,
+  type = 'website',
+  publishDate,
+  author,
+} = Astro.props;
+
+// Ensure canonicalURL is a URL object
+const canonicalURLObj = canonicalURL instanceof URL ? canonicalURL : new URL(canonicalURL, Astro.site);
+
+// Format publish date for ISO string if it exists
+const formattedPublishDate = publishDate 
+  ? (publishDate instanceof Date 
+    ? publishDate.toISOString() 
+    : new Date(publishDate).toISOString())
+  : undefined;
+
+// Default image with full URL
+const siteImage = image ? (image.startsWith('http') ? image : new URL(image, Astro.site)) : undefined;
+---
+
+<!-- Basic Meta Tags -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURLObj} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURLObj} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{siteImage && <meta property="og:image" content={siteImage} />}
+{formattedPublishDate && <meta property="article:published_time" content={formattedPublishDate} />}
+{author && <meta property="article:author" content={author} />}
+
+<!-- Twitter -->
+<meta property="twitter:card" content={siteImage ? "summary_large_image" : "summary"} />
+<meta property="twitter:url" content={canonicalURLObj} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+{siteImage && <meta property="twitter:image" content={siteImage} />}
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- JSON-LD for structured data -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": type === 'article' ? "Article" : "WebPage",
+  "headline": title,
+  "description": description,
+  "image": siteImage,
+  ...(type === 'article' && formattedPublishDate ? {
+    "datePublished": formattedPublishDate,
+    "author": {
+      "@type": "Person",
+      "name": author || "MarkReader"
+    }
+  } : {})
+})}></script>

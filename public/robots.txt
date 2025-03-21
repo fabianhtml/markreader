@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://markreader.pages.dev/sitemap-index.xml

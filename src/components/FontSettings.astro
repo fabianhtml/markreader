@@ -1,0 +1,82 @@
+---
+---
+
+<button id="font-settings" aria-label="Cambiar fuente" title="Cambiar fuente (Cmd+K)" data-tooltip="Cmd+K">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="settings-icon">
+    <path d="M20 7h-9"/>
+    <path d="M14 17H5"/>
+    <circle cx="17" cy="17" r="3"/>
+    <circle cx="7" cy="7" r="3"/>
+  </svg>
+</button>
+
+<style>
+  #font-settings {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--color-text);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0;
+    position: relative;
+  }
+  
+  #font-settings:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark-theme #font-settings:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Estilo para el tooltip */
+  #font-settings::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-text);
+    color: var(--color-background);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+    z-index: 100;
+  }
+  
+  #font-settings:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .dark-theme #font-settings::after {
+    background-color: var(--dark-color-text);
+    color: var(--dark-color-background);
+  }
+</style>
+
+<script>
+  // Manejar el botón de configuración de fuente
+  document.addEventListener('DOMContentLoaded', () => {
+    const fontSettingsButton = document.getElementById('font-settings');
+    const commandPalette = document.getElementById('command-palette');
+    
+    if (fontSettingsButton && commandPalette) {
+      fontSettingsButton.addEventListener('click', () => {
+        // Activar el command palette cuando se haga clic en el botón
+        commandPalette.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll
+      });
+    }
+  });
+</script>

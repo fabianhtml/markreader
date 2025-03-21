@@ -1,0 +1,97 @@
+---
+---
+
+<button id="theme-toggle" aria-label="Toggle dark mode">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<style>
+  #theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--color-text);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #theme-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark-theme #theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sun-icon {
+    display: block;
+  }
+  
+  .moon-icon {
+    display: none;
+  }
+  
+  .dark-theme .sun-icon {
+    display: none;
+  }
+  
+  .dark-theme .moon-icon {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+    
+    // Aplicar tema inicial (por si acaso, aunque ya se debería haber aplicado desde el head)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      htmlElement.classList.add('dark-theme');
+      bodyElement.classList.add('dark-theme');
+    } else if (savedTheme === 'light') {
+      htmlElement.classList.add('light-theme');
+      bodyElement.classList.add('light-theme');
+    }
+    
+    if (toggleButton) {
+      toggleButton.addEventListener('click', () => {
+        if (htmlElement.classList.contains('dark-theme')) {
+          // Cambiar a tema claro
+          htmlElement.classList.remove('dark-theme');
+          htmlElement.classList.add('light-theme');
+          bodyElement.classList.remove('dark-theme');
+          bodyElement.classList.add('light-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          // Cambiar a tema oscuro
+          htmlElement.classList.remove('light-theme');
+          htmlElement.classList.add('dark-theme');
+          bodyElement.classList.remove('light-theme');
+          bodyElement.classList.add('dark-theme');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    }
+  });
+</script>

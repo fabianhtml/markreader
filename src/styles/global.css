@@ -48,10 +48,64 @@ html, body {
   padding: 0;
 }
 
+/* Font selection based on data-font attribute */
+html[data-font="serif"] {
+  font-family: var(--font-family-serif) !important;
+}
+
+html[data-font="serif"] body,
+html[data-font="serif"] .content,
+html[data-font="serif"] .markdown-content,
+html[data-font="serif"] article {
+  font-family: var(--font-family-serif) !important;
+}
+
+html[data-font="sans"] {
+  font-family: var(--font-family-sans) !important;
+}
+
+html[data-font="sans"] body,
+html[data-font="sans"] .content,
+html[data-font="sans"] .markdown-content,
+html[data-font="sans"] article {
+  font-family: var(--font-family-sans) !important;
+}
+
+html[data-font="mono"] {
+  font-family: var(--font-family-mono) !important;
+}
+
+html[data-font="mono"] body,
+html[data-font="mono"] .content,
+html[data-font="mono"] .markdown-content,
+html[data-font="mono"] article {
+  font-family: var(--font-family-mono) !important;
+}
+
+/* Adjust font sizes for better readability based on font type */
+html[data-font="serif"] .content,
+html[data-font="serif"] .markdown-content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+html[data-font="sans"] .content,
+html[data-font="sans"] .markdown-content {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+html[data-font="mono"] .content,
+html[data-font="mono"] .markdown-content {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
 .container {
   max-width: 700px;
   margin: 0 auto;
   padding: var(--spacing-3);
+  position: relative;
 }
 
 header {
@@ -76,6 +130,12 @@ h1 {
 
 header h1 a {
   color: var(--color-text);
+  text-decoration: none;
+}
+
+.dark-theme header h1 a {
+  color: var(--dark-color-primary);
+  text-decoration: none;
 }
 
 /* Enlaces para el tema claro (por defecto) */
@@ -300,10 +360,6 @@ a:hover {
   border-bottom-color: transparent;
 }
 
-.dark-theme header h1 a {
-  color: var(--dark-color-primary);
-}
-
 .dark-theme footer {
   margin-top: var(--spacing-5);
   padding-top: var(--spacing-3);
@@ -320,9 +376,9 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Excepción para los enlaces del título que ya están definidos arriba */
-.dark-theme header h1 a {
-  color: var(--dark-color-primary);
+/* Prevenir transiciones durante la carga de la página para evitar destellos */
+.no-transition, .no-transition * {
+  transition: none !important;
 }
 
 /* Force light theme */

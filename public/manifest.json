@@ -1,0 +1,16 @@
+{
+  "name": "MarkReader",
+  "short_name": "MarkReader",
+  "description": "Un lector minimalista de documentos Markdown con soporte para temas claro y oscuro",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#333333",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

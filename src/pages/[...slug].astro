@@ -12,6 +12,7 @@ interface MarkdownFile {
     date?: string;
     description?: string;
     author?: string;
+    image?: string;
     [key: string]: any;
   };
   file: string;
@@ -24,6 +25,7 @@ interface Props {
     date?: string;
     description?: string;
     author?: string;
+    image?: string;
     [key: string]: any;
   };
   file: string;
@@ -66,7 +68,8 @@ const isSSR = !Content && import.meta.env.DEV;
     title: typeof frontmatter.title === 'string' ? frontmatter.title : finalTitle,
     description: typeof frontmatter.description === 'string' ? frontmatter.description : undefined,
     date: typeof frontmatter.date === 'string' ? frontmatter.date : undefined,
-    author: typeof frontmatter.author === 'string' ? frontmatter.author : undefined
+    author: typeof frontmatter.author === 'string' ? frontmatter.author : undefined,
+    image: typeof frontmatter.image === 'string' ? frontmatter.image : undefined
   }}>
     {frontmatter?.title && <h1 class="post-title">{frontmatter.title}</h1>}
     <div class="metadata">
