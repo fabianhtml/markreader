@@ -1,0 +1,19 @@
+name = "markreader"
+main = "./.cloudflare/workers-site/index.js"
+compatibility_date = "2023-01-01"
+account_id = "8eae083cc304359a42f4b0ac69536521"
+
+[site]
+bucket = "./dist"
+
+[build]
+command = "npm run build"
+
+[pages]
+pages_build_output_dir = "./dist"
+
+# Configuración para dominio personalizado
+[env.production]
+routes = [
+  { pattern = "markreader.reshape.so", custom_domain = true }
+]

@@ -1,0 +1,153 @@
+---
+import MarkdownLayout from '../layouts/MarkdownLayout.astro';
+import type { GetStaticPathsResult } from 'astro';
+
+// Indicar a Astro que pre-renderice estas páginas durante la compilación
+export const prerender = true;
+
+interface MarkdownFile {
+  Content: any;
+  frontmatter: {
+    title?: string;
+    date?: string;
+    description?: string;
+    author?: string;
+    [key: string]: any;
+  };
+  file: string;
+}
+
+interface Props {
+  Content: any;
+  frontmatter: {
+    title?: string;
+    date?: string;
+    description?: string;
+    author?: string;
+    [key: string]: any;
+  };
+  file: string;
+}
+
+export async function getStaticPaths(): Promise<GetStaticPathsResult> {
+  const markdownFiles = await Astro.glob<MarkdownFile>('../content/*.md');
+  
+  return markdownFiles.map((file: MarkdownFile) => {
+    const slug = file.file.split('/').pop()?.replace('.md', '') || '';
+    return {
+      params: { slug },
+      props: { 
+        Content: file.Content,
+        frontmatter: file.frontmatter || {},
+        file: file.file
+      }
+    };
+  });
+}
+
+// Si llegamos aquí en modo SSR, significa que la ruta no coincide con ningún archivo estático
+// Esto solo ocurre en modo de desarrollo o si se usa el adaptador de Cloudflare
+const { Content, frontmatter = {}, file } = Astro.props as Props;
+const slug = typeof Astro.params.slug === 'string' ? Astro.params.slug : '';
+const finalTitle = frontmatter?.title || slug || '';
+
+// Verificar si estamos en modo SSR y no tenemos Content
+const isSSR = !Content && import.meta.env.DEV;
+---
+
+{isSSR ? (
+  <MarkdownLayout title="Documento no encontrado">
+    <h1>Documento no encontrado</h1>
+    <p>Lo sentimos, el documento "{slug}" no existe o no está disponible.</p>
+    <p><a href="/">Volver al inicio</a></p>
+  </MarkdownLayout>
+) : (
+  <MarkdownLayout title={finalTitle} frontmatter={{
+    title: typeof frontmatter.title === 'string' ? frontmatter.title : finalTitle,
+    description: typeof frontmatter.description === 'string' ? frontmatter.description : undefined,
+    date: typeof frontmatter.date === 'string' ? frontmatter.date : undefined,
+    author: typeof frontmatter.author === 'string' ? frontmatter.author : undefined
+  }}>
+    {frontmatter?.title && <h1 class="post-title">{frontmatter.title}</h1>}
+    <div class="metadata">
+      <div class="meta-line">
+        {frontmatter?.date && <span class="date">{new Date(frontmatter.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}</span>}
+        {frontmatter?.date && frontmatter?.author && <span class="separator"> · </span>}
+        {frontmatter?.author && <span class="author">{frontmatter.author}</span>}
+      </div>
+    </div>
+    {frontmatter?.description && (
+      <div class="description">
+        <p><strong>tl;dr:</strong> {frontmatter.description}</p>
+      </div>
+    )}
+    <div class="content">
+      <Content />
+    </div>
+  </MarkdownLayout>
+)}
+
+<style>
+  .post-title {
+    margin-bottom: 0.8rem;
+  }
+  .metadata {
+    margin-bottom: 1.2rem;
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+  }
+  .meta-line {
+    display: flex;
+    align-items: center;
+  }
+  .date {
+    font-weight: 500;
+  }
+  .author {
+    font-style: italic;
+  }
+  .separator {
+    margin: 0 0.5rem;
+  }
+  .description {
+    margin-bottom: var(--spacing-4);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    border-left: 4px solid var(--color-accent);
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 0 4px 4px 0;
+    margin-left: 0;
+  }
+  
+  .dark-theme .description {
+    background-color: rgba(255, 255, 255, 0.07);
+    color: var(--dark-color-text);
+  }
+  
+  .description p {
+    margin: 0;
+  }
+  .description strong {
+    color: var(--color-accent);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    margin-right: 0.5rem;
+    text-transform: lowercase;
+    font-weight: 700;
+  }
+  
+  .dark-theme .description strong {
+    color: var(--dark-color-accent);
+  }
+  .content {
+    margin-top: 2rem;
+  }
+</style>

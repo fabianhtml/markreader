@@ -1,11 +1,236 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Get all markdown files from the content directory
+const markdownFiles = await Astro.glob('../content/*.md');
+
+// Sort files alphabetically by title or filename
+const sortedFiles = markdownFiles.sort((a, b) => {
+  const titleA = a.frontmatter?.title || a.file?.split('/').pop()?.replace('.md', '') || 'unknown';
+  const titleB = b.frontmatter?.title || b.file?.split('/').pop()?.replace('.md', '') || 'unknown';
+  return titleA.localeCompare(titleB);
+});
 ---
 
 <Layout>
-	<Welcome />
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1>MarkReader</h1>
+        <button id="theme-toggle" aria-label="Toggle dark mode">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+      <p>Just read</p>
+    </header>
+    
+    <main>
+      <h2>Posts:</h2>
+      {sortedFiles.length > 0 ? (
+        <ul class="document-list">
+          {sortedFiles.map((file) => {
+            const filename = file.file?.split('/').pop()?.replace('.md', '') || 'unknown';
+            const title = file.frontmatter?.title || filename;
+            return (
+              <li>
+                <a href={`/${filename}`} class="title-link">
+                  {title}
+                  {file.frontmatter?.author && (
+                    <span class="author"> · {file.frontmatter.author}</span>
+                  )}
+                </a>
+                <div class="meta-info">
+                  {file.frontmatter?.description && (
+                    <p>{file.frontmatter.description.length > 70 
+                        ? `${file.frontmatter.description.substring(0, 70)}...` 
+                        : file.frontmatter.description}</p>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p>No documents found. Add markdown files to the <code>src/content</code> directory.</p>
+      )}
+    </main>
+  </div>
+
+  <script>
+    // Theme toggle functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('theme-toggle');
+      const htmlElement = document.documentElement;
+      const bodyElement = document.body;
+      
+      // Check for saved theme preference or use the system preference
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        htmlElement.classList.add('dark-theme');
+        htmlElement.classList.remove('light-theme');
+        bodyElement.classList.add('dark-theme');
+        bodyElement.classList.remove('light-theme');
+      } else if (savedTheme === 'light') {
+        htmlElement.classList.add('light-theme');
+        htmlElement.classList.remove('dark-theme');
+        bodyElement.classList.add('light-theme');
+        bodyElement.classList.remove('dark-theme');
+      } else {
+        // If no saved preference, check system preference
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          htmlElement.classList.add('dark-theme');
+          bodyElement.classList.add('dark-theme');
+        } else {
+          htmlElement.classList.add('light-theme');
+          bodyElement.classList.add('light-theme');
+        }
+      }
+      
+      // Update button appearance based on current theme
+      updateToggleButton();
+      
+      // Toggle theme when button is clicked
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          if (htmlElement.classList.contains('dark-theme')) {
+            // Switch to light theme
+            htmlElement.classList.remove('dark-theme');
+            htmlElement.classList.add('light-theme');
+            bodyElement.classList.remove('dark-theme');
+            bodyElement.classList.add('light-theme');
+            localStorage.setItem('theme', 'light');
+            console.log('Switched to light theme');
+          } else {
+            // Switch to dark theme
+            htmlElement.classList.remove('light-theme');
+            htmlElement.classList.add('dark-theme');
+            bodyElement.classList.remove('light-theme');
+            bodyElement.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+            console.log('Switched to dark theme');
+          }
+          updateToggleButton();
+        });
+      }
+      
+      function updateToggleButton() {
+        const isDarkTheme = htmlElement.classList.contains('dark-theme');
+        
+        const sunIcon = document.querySelector('.sun-icon') as HTMLElement;
+        const moonIcon = document.querySelector('.moon-icon') as HTMLElement;
+        
+        if (isDarkTheme) {
+          if (sunIcon) sunIcon.style.display = 'block';
+          if (moonIcon) moonIcon.style.display = 'none';
+        } else {
+          if (sunIcon) sunIcon.style.display = 'none';
+          if (moonIcon) moonIcon.style.display = 'block';
+        }
+      }
+      
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          // Only apply system preference if user hasn't set a preference
+          if (e.matches) {
+            htmlElement.classList.add('dark-theme');
+            htmlElement.classList.remove('light-theme');
+            bodyElement.classList.add('dark-theme');
+            bodyElement.classList.remove('light-theme');
+          } else {
+            htmlElement.classList.add('light-theme');
+            htmlElement.classList.remove('dark-theme');
+            bodyElement.classList.add('light-theme');
+            bodyElement.classList.remove('dark-theme');
+          }
+          updateToggleButton();
+        }
+      });
+    });
+  </script>
 </Layout>
+
+<style>
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  #theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--color-text);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #theme-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark-theme #theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .document-list li {
+    margin-bottom: 1.8rem;
+    padding: 0.5rem 0.8rem;
+    background-color: rgba(0, 0, 0, 0.027);
+    border-radius: 8px;
+  }
+
+  .dark-theme .document-list li {
+    background-color: rgba(255, 255, 255, 0.039);
+  }
+
+  .document-list li .title-link {
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 0.1rem;
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .document-list li .title-link:hover {
+    text-decoration: underline;
+  }
+
+  .document-list li .title-link .author {
+    font-weight: normal;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--color-secondary);
+  }
+
+  .document-list li .meta-info {
+    font-size: 0.9rem;
+    line-height: 1.3;
+    color: var(--color-secondary);
+  }
+
+  .document-list li p {
+    margin: 0;
+  }
+</style>

@@ -1,7 +1,8 @@
 {
-  "name": "spiffy-series",
+  "name": "markreader",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Un lector minimalista de documentos Markdown con soporte para temas claro y oscuro",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -9,6 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.2.4",
     "astro": "^5.5.3"
-  }
+  },
+  "author": "",
+  "license": "MIT"
 }

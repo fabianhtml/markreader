@@ -1,0 +1,13 @@
+{
+  "build": {
+    "command": "npm run build",
+    "output_directory": "dist",
+    "root_directory": "/"
+  },
+  "routes": [
+    {
+      "pattern": "/*",
+      "script": "index.js"
+    }
+  ]
+}
