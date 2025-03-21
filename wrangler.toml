@@ -1,11 +1,5 @@
 name = "markreader"
 compatibility_date = "2023-01-01"
-account_id = "8eae083cc304359a42f4b0ac69536521"
 
 # Configuración para Pages
 pages_build_output_dir = "dist"
-
-# Configuración para dominio personalizado
-routes = [
-  { pattern = "markreader.reshape.so", custom_domain = true }
-]
