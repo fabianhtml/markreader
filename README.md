@@ -1,6 +1,14 @@
 # MarkReader
 
-Un lector minimalista de documentos Markdown con soporte para temas claro y oscuro.
+Un lector de Markdown simple
+
+## 🎨 Características
+
+- Diseño simple y minimalista
+- Soporte para temas claro y oscuro
+- Resaltado de sintaxis para bloques de código
+- Tipografía optimizada para lectura
+- Opción de cambiar de fuente
 
 ## 🚀 Estructura del Proyecto
 
@@ -156,11 +164,3 @@ Para añadir nuevos archivos Markdown:
 - **Error de compilación**: Verifica la sintaxis de tus archivos Markdown
 - **Problemas con el tema**: Asegúrate de que los estilos en `global.css` sean correctos
 - **Errores en el despliegue**: Verifica que `wrangler.toml` tenga la configuración correcta
-
-## 🎨 Características
-
-- Diseño minimalista enfocado en la legibilidad
-- Soporte para temas claro y oscuro
-- Resaltado de sintaxis para bloques de código
-- Tipografía optimizada para lectura
-- Almacenamiento de preferencia de tema
