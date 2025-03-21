@@ -47,7 +47,7 @@ La aplicación está desplegada en:
 1. Asegúrate de tener una cuenta en Cloudflare
 2. Actualiza el archivo `wrangler.toml` con tu `account_id` y `zone_id` (si tienes un dominio personalizado)
 
-### Pasos para el Despliegue
+### Despliegue Manual
 
 1. Construye la aplicación:
    ```bash
@@ -58,6 +58,42 @@ La aplicación está desplegada en:
    ```bash
    wrangler pages deploy dist
    ```
+
+### Despliegue Automático con GitHub Actions
+
+Este proyecto incluye configuración para despliegue automático a Cloudflare Pages usando GitHub Actions. Cada vez que haces push a la rama `main`, tu aplicación se construye y despliega automáticamente.
+
+#### Configuración de GitHub Actions
+
+1. **Haz fork o clona este repositorio en tu cuenta de GitHub**
+
+2. **Configura los secretos necesarios en tu repositorio de GitHub**:
+   - Ve a tu repositorio en GitHub
+   - Navega a Settings > Secrets and variables > Actions
+   - Añade los siguientes secretos:
+     - `CLOUDFLARE_API_TOKEN`: Tu token de API de Cloudflare con permisos para Pages
+     - `CLOUDFLARE_ACCOUNT_ID`: El ID de tu cuenta de Cloudflare
+
+3. **Cómo obtener los valores para los secretos**:
+   
+   Para `CLOUDFLARE_API_TOKEN`:
+   - Inicia sesión en el [Dashboard de Cloudflare](https://dash.cloudflare.com)
+   - Ve a "Mi perfil" > "API Tokens"
+   - Crea un token personalizado con permisos:
+     - Account > Cloudflare Pages > Edit
+
+   Para `CLOUDFLARE_ACCOUNT_ID`:
+   - El ID de tu cuenta se encuentra en la URL del dashboard de Cloudflare
+   - Formato: `https://dash.cloudflare.com/abcdef1234567890abcdef1234567890`
+   - El string alfanumérico largo es tu Account ID
+
+4. **Verifica el despliegue**:
+   - Haz un pequeño cambio en tu repositorio
+   - Haz commit y push a la rama main
+   - Ve a la pestaña "Actions" en tu repositorio para ver el progreso
+   - Una vez completado, tu aplicación estará disponible en Cloudflare Pages
+
+El archivo de configuración de GitHub Actions se encuentra en `.github/workflows/deploy.yml`.
 
 ### Configuración de Dominio Personalizado
 
@@ -96,25 +132,10 @@ Para configurar un dominio personalizado (como `markreader.reshape.so`):
    - Los cambios pueden tardar hasta 24 horas, aunque con Cloudflare suele ser más rápido
    - Verifica que el certificado SSL esté activo
 
-## 🔧 Mantenimiento
 
-### Actualización de la Aplicación
+## Añadir Nuevos archivos Markdown
 
-Para actualizar la aplicación después de realizar cambios:
-
-1. Realiza tus modificaciones en el código
-2. Construye la aplicación:
-   ```bash
-   npm run build
-   ```
-3. Despliega los cambios:
-   ```bash
-   wrangler pages deploy dist
-   ```
-
-### Añadir Nuevos Documentos Markdown
-
-Para añadir nuevos documentos:
+Para añadir nuevos archivos Markdown:
 
 1. Crea un archivo Markdown en la carpeta `src/content/`
 2. Asegúrate de incluir el frontmatter con título, autor y fecha (opcional):
