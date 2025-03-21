@@ -2,7 +2,7 @@
  title: A dangerous divorcée
  date: 2025-03-15
  author: The Economist
- description: Europa tiene varias maneras de ejercer presión económica y tecnológica sobre Estados Unidos si las tensiones comerciales y políticas continúan escalando. La UE podría imponer aranceles, regular a las empresas tecnológicas estadounidenses y obstaculizar el comercio de productos básicos y servicios clave. A pesar de la fuerte dependencia militar de Europa de Estados Unidos, la UE también tiene una influencia significativa en la defensa, lo que podría complicar las operaciones militares de Estados Unidos
+ description: Europa tiene varias maneras de ejercer presión económica y tecnológica sobre Estados Unidos si las tensiones comerciales y políticas continúan escalando. La UE podría imponer aranceles, regular a las empresas tecnológicas estadounidenses y obstaculizar el comercio de productos básicos y servicios clave. A pesar de la fuerte dependencia militar de Europa de Estados Unidos, la UE también tiene una influencia significativa en la defensa, lo que podría complicar las operaciones militares de Estados Unidos.
 ---
 
 ## _Briefing_ Could Europe fight back?
