@@ -31,6 +31,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    top: 1px; 
   }
   
   #theme-toggle:hover {
@@ -39,6 +41,13 @@
   
   .dark-theme #theme-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sun-icon, .moon-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    position: relative;
   }
   
   .sun-icon {
@@ -55,6 +64,20 @@
   
   .dark-theme .moon-icon {
     display: block;
+  }
+  
+  /* Ajustes para dispositivos móviles */
+  @media (max-width: 768px) {
+    #theme-toggle {
+      width: 28px;
+      height: 28px;
+      padding: 4px;
+    }
+    
+    .sun-icon, .moon-icon {
+      width: 14px;
+      height: 14px;
+    }
   }
 </style>
 

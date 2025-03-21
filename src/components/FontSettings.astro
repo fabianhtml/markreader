@@ -25,6 +25,7 @@
     justify-content: center;
     margin-right: 0;
     position: relative;
+    top: 1px; 
   }
   
   #font-settings:hover {
@@ -33,6 +34,27 @@
   
   .dark-theme #font-settings:hover {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .settings-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    position: relative;
+  }
+  
+  /* Ajustes para dispositivos móviles */
+  @media (max-width: 768px) {
+    #font-settings {
+      width: 28px;
+      height: 28px;
+      padding: 4px;
+    }
+    
+    .settings-icon {
+      width: 14px;
+      height: 14px;
+    }
   }
   
   /* Estilo para el tooltip */
