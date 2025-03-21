@@ -4,6 +4,7 @@ import SEO from '../components/SEO.astro';
 import CommandPalette from '../components/CommandPalette.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import FontSettings from '../components/FontSettings.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
@@ -104,9 +105,7 @@ const pageImage = frontmatter?.image;
           <slot />
         </article>
       </main>
-      <footer>
-        <p><a href="/">← Back to document list</a></p>
-      </footer>
+      <Footer />
     </div>
 
     <CommandPalette />
@@ -125,6 +124,16 @@ const pageImage = frontmatter?.image;
 </html>
 
 <style>
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
   .header-content {
     display: flex;
     justify-content: space-between;

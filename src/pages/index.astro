@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import Footer from '../components/Footer.astro';
 
 // Get all markdown files from the content directory
 const markdownFiles = await Astro.glob('../content/*.md');
@@ -65,6 +66,7 @@ const description = "Un lector de Markdown simple";
         <p>No documents found. Add markdown files to the <code>src/content</code> directory.</p>
       )}
     </main>
+    <Footer />
   </div>
 
   <script>
@@ -118,6 +120,16 @@ const description = "Un lector de Markdown simple";
 </Layout>
 
 <style>
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
   .header-content {
     display: flex;
     justify-content: space-between;
