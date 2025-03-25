@@ -24,4 +24,7 @@ export default async function Layout(props: { children: ReactNode; params: Promi
   const { id } = await params;
   
   // ... do whatever
-  
+```
+
+- [source](https://github.com/vercel/next.js/issues/71603)
+- [more info](https://nextjs.org/blog/next-15)
