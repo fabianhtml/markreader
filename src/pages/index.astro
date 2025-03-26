@@ -7,11 +7,11 @@ import Footer from '../components/Footer.astro';
 // Get all markdown files from the content directory
 const markdownFiles = await Astro.glob('../content/*.md');
 
-// Sort files alphabetically by title or filename
+// Sort files by date (newest first)
 const sortedFiles = markdownFiles.sort((a, b) => {
-  const titleA = a.frontmatter?.title || a.file?.split('/').pop()?.replace('.md', '') || 'unknown';
-  const titleB = b.frontmatter?.title || b.file?.split('/').pop()?.replace('.md', '') || 'unknown';
-  return titleA.localeCompare(titleB);
+  const dateA = a.frontmatter?.date ? new Date(a.frontmatter.date).getTime() : 0;
+  const dateB = b.frontmatter?.date ? new Date(b.frontmatter.date).getTime() : 0;
+  return dateB - dateA; // Orden descendente (más reciente primero)
 });
 
 // SEO metadata
