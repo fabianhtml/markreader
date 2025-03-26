@@ -1,6 +1,12 @@
 # MarkReader
 
-Un lector de Markdown simple
+> _Un lector de Markdown simple_
+
+[Demo](https://markreader.reshape.so)
+
+`markreader` nació buscando mejorar la experiencia de lectura en dispositivos móviles y de escritorio de documentos como PDFs, así como de tener un archivo personal que también pueda compartir con _LLMs_ para diferentes propósitos.
+
+Los PDFs son incómodos de leer, pero hoy con IAs (como Gemini 1.5) convertirlos en Markdown toma segundos. También lo uso para guardar transcripciones de YouTube, consolidar documentación técnica, guardar reportes de _deep research_,  o cualquier texto interesante encontrado en línea (muchas veces mal formateado), etc.
 
 ## 🎨 Características
 
@@ -10,7 +16,13 @@ Un lector de Markdown simple
 - Tipografía optimizada para lectura
 - Opción de cambiar de fuente
 
+## 🛠️ Tecnología Utilizada
+
+El núcleo de `markreader` está construido con **Astro**, un framework moderno para generar sitios web rápidos y optimizados, ideal para manejar contenido estático como archivos Markdown. El proyecto utiliza **Node.js** y **npm** para la gestión de dependencias y scripts. Está configurado para un despliegue sencillo en **Cloudflare Pages**, utilizando la integración oficial de Astro para Cloudflare.
+
 ## 🚀 Estructura del Proyecto
+
+Tiene una estrtucura muy simple.
 
 ```text
 /
@@ -58,11 +70,13 @@ La aplicación está desplegada en:
 ### Despliegue Manual
 
 1. Construye la aplicación:
+
    ```bash
    npm run build
    ```
 
 2. Despliega en Cloudflare Pages:
+
    ```bash
    wrangler pages deploy dist
    ```
@@ -83,7 +97,7 @@ Este proyecto incluye configuración para despliegue automático a Cloudflare Pa
      - `CLOUDFLARE_ACCOUNT_ID`: El ID de tu cuenta de Cloudflare
 
 3. **Cómo obtener los valores para los secretos**:
-   
+
    Para `CLOUDFLARE_API_TOKEN`:
    - Inicia sesión en el [Dashboard de Cloudflare](https://dash.cloudflare.com)
    - Ve a "Mi perfil" > "API Tokens"
@@ -129,6 +143,7 @@ Para configurar un dominio personalizado (como `markreader.reshape.so`):
 
 4. **Actualiza wrangler.toml** (opcional):
    - Añade la configuración de dominio personalizado en tu archivo `wrangler.toml`:
+
    ```toml
    [env.production]
    routes = [
@@ -140,13 +155,13 @@ Para configurar un dominio personalizado (como `markreader.reshape.so`):
    - Los cambios pueden tardar hasta 24 horas, aunque con Cloudflare suele ser más rápido
    - Verifica que el certificado SSL esté activo
 
-
 ## Añadir Nuevos archivos Markdown
 
 Para añadir nuevos archivos Markdown:
 
 1. Crea un archivo Markdown en la carpeta `src/content/`
 2. Asegúrate de incluir el frontmatter con título, autor y fecha (opcional):
+
    ```markdown
    ---
    title: Título del post
@@ -157,6 +172,7 @@ Para añadir nuevos archivos Markdown:
 
    Contenido del post en Markdown...
    ```
+
 3. Construye y despliega la aplicación
 
 ### Solución de Problemas Comunes
