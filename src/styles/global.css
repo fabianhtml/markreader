@@ -141,7 +141,7 @@ header h1 a {
 /* Enlaces para el tema claro (por defecto) */
 a {
   color: var(--color-primary);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 a:hover {
@@ -408,7 +408,7 @@ a:hover {
 /* Enlaces para el tema oscuro */
 .dark-theme a {
   color: var(--dark-color-primary);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .dark-theme a:hover {
