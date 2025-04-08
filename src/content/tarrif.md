@@ -1,0 +1,22 @@
+---
+title: Ray Dalio. Tarifas no son el problema principal, sino un síntoma de desequilibrios más grandes
+date: 2025-04-07
+author: Ray Dalio
+description: Ray Dalio dice que las tarifas no son el problema principal, sino un síntoma de desequilibrios más grandes. Según él, estamos viviendo una ruptura del orden económico, político y geopolítico mundial. Estos cambios profundos son parte de un ciclo histórico que ocurre cuando las condiciones se vuelven insostenibles.
+---
+
+[Source](https://www.linkedin.com/pulse/dont-make-mistake-thinking-whats-now-happening-mostly-ray-dalio-w8dbe/)
+
+Ray Dalio señala que, aunque los aranceles anunciados y sus impactos en los mercados son importantes, se está pasando por alto el contexto que llevó a su implementación y las fuerzas subyacentes que los impulsan. Destaca que estamos experimentando una ruptura significativa de los órdenes monetarios, políticos y geopolíticos, un fenómeno que ocurre raramente en la historia y que se desencadena por condiciones insostenibles.
+
+1. El orden monetario y económico actual está en crisis debido a la insostenible acumulación de deudas, donde los deudores, como Estados Unidos, se ven atrapados en un ciclo de endeudamiento para financiar sus excesos, mientras que los acreedores, como China, dependen de las ventas a estos deudores para mantener sus economías. Esta situación genera desequilibrios que requieren correcciones, especialmente en un contexto de desglobalización y desconfianza mutua entre las naciones, lo que plantea riesgos históricos de conflictos. El modelo en el que China fabrica y vende a Estados Unidos, que a su vez se endeuda para consumir, es insostenible y está deteriorando la manufactura estadounidense y los empleos de clase media. Por lo tanto, es evidente que se necesitarán cambios drásticos en el orden monetario para abordar estas desigualdades y la creciente deuda del gobierno estadounidense, lo que tendrá importantes implicaciones para los mercados de capital y la economía en general.
+
+2. El orden político doméstico está en crisis debido a las grandes disparidades en educación, oportunidades, productividad, ingresos y valores, así como a la ineficacia del sistema político actual para abordar estos problemas. Esto se traduce en confrontaciones extremas entre populistas de derecha e izquierda por el control del poder, lo que está llevando al colapso de las democracias, que dependen del compromiso y el respeto al estado de derecho. La historia sugiere que en tales contextos surgen líderes autocráticos a medida que se debilitan las barreras democráticas. Además, la situación política inestable se verá influenciada por problemas económicos y del mercado que pueden generar más conflictos políticos y geopolíticos.
+
+3. El orden geopolítico internacional está en crisis, ya que la era de la dominación estadounidense que imponía un orden multilateral está llegando a su fin. En su lugar, se está instaurando un enfoque unilateral basado en el poder, donde Estados Unidos, aunque sigue siendo la principal potencia global, adopta una estrategia de "América primero". Esto se refleja en la actual guerra comercial, conflictos geopolíticos, competencia tecnológica y, en algunos casos, guerras militares.
+
+4. Los fenómenos naturales, como sequías, inundaciones y pandemias, están generando un impacto cada vez más disruptivo en la sociedad.
+
+5. Los avances tecnológicos, especialmente en inteligencia artificial, tendrán un impacto significativo en diversos ámbitos de la vida, incluyendo la economía, la política, las relaciones internacionales y los costos asociados a desastres naturales.
+
+El texto enfatiza la importancia de concentrarse en las cinco grandes fuerzas y sus interrelaciones, en lugar de dejarse distraer por cambios dramáticos como los aranceles, ya que son estas fuerzas las que impulsan los cambios en los ciclos globales. Se destaca cómo las acciones de Donald Trump sobre los aranceles podrían afectar el orden económico, político, geopolítico, climático y tecnológico de manera disruptiva. Además, se sugiere estudiar la historia para entender cómo los responsables políticos han respondido en situaciones similares, lo que puede ayudar a anticipar acciones futuras y comprender las etapas del ciclo global. El autor espera que su trabajo ayude a los responsables de políticas a interactuar mejor con estas fuerzas y fomente el diálogo abierto entre personas con diferentes perspectivas para llegar a la verdad y actuar de manera efectiva.
