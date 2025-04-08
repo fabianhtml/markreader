@@ -1,6 +1,6 @@
 ---
  title: SearchParams not functioning correctly in Next.js 15
- date: 2025-10-22
+ date: 2024-10-22
  author: belirofon
  description: I found the fix, the generated types now dictate that params/searchParams is a promise so the fix is fairly simple.
 ---
