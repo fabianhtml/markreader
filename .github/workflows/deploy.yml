@@ -30,13 +30,16 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          echo "PNPM version: $(pnpm --version)"
+          echo "Node version: $(node --version)"
+          pnpm install --no-frozen-lockfile
 
       - name: Build
         run: pnpm run build
 
       - name: Install Wrangler
-        run: pnpm add -g wrangler
+        run: npm install -g wrangler
 
       - name: Deploy to Cloudflare Pages
         run: wrangler pages deploy dist --project-name=markreader --commit-dirty=true
