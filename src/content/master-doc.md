@@ -8,10 +8,10 @@ description: Esto es un híbdirdo entre un Product Requirements Document (PRD), 
 
 **Master**: RecipeGenius
 
-**Versión:** 1.0
-**Fecha:** 10 de abril de 2025
-**Autor:** [Fabián Acuña Hernández](https://x.com/fabianhtml) + Gemini 2.5 Pro Preview 03-25
-**Última actualización:** 10 de abril de 2025
+- **Versión:** 1.0
+- **Fecha:** 10 de abril de 2025
+- **Autor:** [Fabián Acuña Hernández](https://x.com/fabianhtml) + Gemini 2.5 Pro Preview 03-25
+- **Última actualización:** 10 de abril de 2025
 
 ## Índice
 
