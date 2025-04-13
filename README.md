@@ -18,7 +18,7 @@ Los PDFs son incómodos de leer, pero hoy con IAs (como Gemini 1.5) convertirlos
 
 ## 🛠️ Tecnología Utilizada
 
-El núcleo de `markreader` está construido con **Astro**, un framework moderno para generar sitios web rápidos y optimizados, ideal para manejar contenido estático como archivos Markdown. El proyecto utiliza **Node.js** y **npm** para la gestión de dependencias y scripts. Está configurado para un despliegue sencillo en **Cloudflare Pages**, utilizando la integración oficial de Astro para Cloudflare.
+El núcleo de `markreader` está construido con **Astro**, un framework moderno para generar sitios web rápidos y optimizados, ideal para manejar contenido estático como archivos Markdown. El proyecto utiliza **Node.js** y **pnpm** para la gestión de dependencias y scripts. Está configurado para un despliegue sencillo en **Cloudflare Pages**, utilizando la integración oficial de Astro para Cloudflare.
 
 ## 🚀 Estructura del Proyecto
 
@@ -51,10 +51,10 @@ Todos los comandos se ejecutan desde la raíz del proyecto, desde una terminal:
 
 | Comando                   | Acción                                           |
 | :------------------------ | :----------------------------------------------- |
-| `npm install`             | Instala dependencias                             |
-| `npm run dev`             | Inicia servidor de desarrollo en `localhost:4321`|
-| `npm run build`           | Construye el sitio para producción en `./dist/`  |
-| `npm run preview`         | Vista previa local de la build                   |
+| `pnpm install`            | Instala dependencias                             |
+| `pnpm run dev`            | Inicia servidor de desarrollo en `localhost:4321`|
+| `pnpm run build`          | Construye el sitio para producción en `./dist/`  |
+| `pnpm run preview`        | Vista previa local de la build                   |
 
 ## 🌩️ Despliegue en Cloudflare Pages
 
@@ -72,7 +72,7 @@ La aplicación está desplegada en:
 1. Construye la aplicación:
 
    ```bash
-   npm run build
+   pnpm run build
    ```
 
 2. Despliega en Cloudflare Pages:
@@ -96,7 +96,18 @@ Este proyecto incluye configuración para despliegue automático a Cloudflare Pa
      - `CLOUDFLARE_API_TOKEN`: Tu token de API de Cloudflare con permisos para Pages
      - `CLOUDFLARE_ACCOUNT_ID`: El ID de tu cuenta de Cloudflare
 
-3. **Cómo obtener los valores para los secretos**:
+3. **Asegúrate de que el flujo de trabajo utilice pnpm**:
+   - Revisa el archivo `.github/workflows/deploy.yml` para asegurarte de que utiliza pnpm en lugar de npm
+   - Actualiza los comandos según sea necesario:
+     ```yaml
+     - name: Instalar dependencias
+       run: pnpm install
+     
+     - name: Construir aplicación
+       run: pnpm run build
+     ```
+
+4. **Cómo obtener los valores para los secretos**:
 
    Para `CLOUDFLARE_API_TOKEN`:
    - Inicia sesión en el [Dashboard de Cloudflare](https://dash.cloudflare.com)
@@ -109,7 +120,7 @@ Este proyecto incluye configuración para despliegue automático a Cloudflare Pa
    - Formato: `https://dash.cloudflare.com/abcdef1234567890abcdef1234567890`
    - El string alfanumérico largo es tu Account ID
 
-4. **Verifica el despliegue**:
+5. **Verifica el despliegue**:
    - Haz un pequeño cambio en tu repositorio
    - Haz commit y push a la rama main
    - Ve a la pestaña "Actions" en tu repositorio para ver el progreso
