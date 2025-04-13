@@ -1,7 +1,7 @@
 ---
 title: Ejemplo Master-doc para usar con Vibe Coding
 date: 2025-04-07
-author: Ray Dalio
+author: Fabián Acuña Hernández + Gemini 2.5 Pro Preview
 description: Esto es un híbdirdo entre un Product Requirements Document (PRD), especificaiones técnicas y guías de implementación.
 ---
 
